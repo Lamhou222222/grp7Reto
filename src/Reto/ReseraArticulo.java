@@ -1,28 +1,33 @@
 package Reto;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 public class ReseraArticulo {
 	
-	private static Reserva rerserva;
-	private static Articulo articulo;
+	private static String id_reserva;
+	private static String cod_art;
 	
 	
-	public ReseraArticulo(Reserva reserva, Articulo articulo) {
-		ReseraArticulo.rerserva = reserva;
-        ReseraArticulo.articulo = articulo;
+	public ReseraArticulo(String reserva, String articulo) {
+		ReseraArticulo.id_reserva = reserva;
+        ReseraArticulo.cod_art = articulo;
     }
 	
 	
-	public static Reserva getRerserva() {
-		return rerserva;
+	public static String getRerserva() {
+		return id_reserva;
 	}
-	public static void setRerserva(Reserva rerserva) {
-		ReseraArticulo.rerserva = rerserva;
+	public static void setRerserva(String rerserva) {
+		ReseraArticulo.id_reserva = rerserva;
 	}
-	public static Articulo getArticulo() {
-		return articulo;
+	public static String getArticulo() {
+		return cod_art;
 	}
-	public static void setArticulo(Articulo articulo) {
-		ReseraArticulo.articulo = articulo;
+	public static void setArticulo(String articulo) {
+		ReseraArticulo.cod_art = articulo;
 	}
 	
 	
@@ -30,8 +35,25 @@ public class ReseraArticulo {
 	 @Override
 	 public String toString() {
 		    return "Detalle {" +
-		           "\n  reserva: " + (rerserva != null ? rerserva : "null") +
-		           ",\n  articulo: " + (articulo != null ? articulo : "null") +
+		           "\n  reserva: " + (id_reserva != null ? id_reserva : "null") +
+		           ",\n  articulo: " + (cod_art != null ? cod_art : "null") +
 		           "\n}";
 		}
+	 
+	 public static void listarReservarArticulos() {
+	        try (Connection con = DBConnection.getConexion()) {
+	            if (con != null) {
+	                String query = "SELECT * FROM reservaarticulo ";
+	                try (Statement stmt = con.createStatement()) {
+	                    ResultSet rs = stmt.executeQuery(query);
+	                    while (rs.next()) {
+	                        System.out.println("Código: " + rs.getString("cod_art"));
+	                        System.out.println("id_reserva: " + rs.getString("id_reserva"));
+	                    }
+	                }
+	            }
+	        } catch (SQLException e) {
+	            System.err.println("Error  " + e.getMessage());
+	        }
+	    }
 }
