@@ -1,24 +1,24 @@
 package Reto;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 public class Usuario {
 	
 	
 	
-
-
 	private static String Dni_usuario;
 	private static String nombre ;
 	private static char Sexo;
 	private static String contrasenia;
-	private static Reserva reserva;
 	private static String rol;
 	
-	public Usuario( String Dni ,String nom,char s,String con,Reserva res,String r) {
+	public Usuario( String Dni ,String nom,char s,String con,String r) {
 		Usuario.Dni_usuario=Dni;
 		Usuario.nombre=nom;
 		Usuario.Sexo=s;
 		Usuario.contrasenia=con;
-		Usuario.reserva=res;
 		Usuario.rol=r;
 	}
 
@@ -51,8 +51,13 @@ public class Usuario {
 	}
 
 
-	public static void setSexo(char sexo) {
-		Sexo = sexo;
+	public static void setSexo(char sex) {
+		if(sex!='M' && sex!='m') {
+			Sexo='H';
+		}
+		else {
+			Sexo=sex;
+		}
 	}
 
 
@@ -65,17 +70,6 @@ public class Usuario {
 		Usuario.contrasenia = contrasenia;
 	}
 
-
-	public static Reserva getReserva() {
-		return reserva;
-	}
-
-
-	public static void setReserva(Reserva reserva) {
-		Usuario.reserva = reserva;
-	}
-
-
 	public static String getRol() {
 		return rol;
 	}
@@ -87,14 +81,6 @@ public class Usuario {
 	
 	
 	
-	public static void sexo(char sex) {
-		if(sex!='M' && sex!='m') {
-			Sexo='H';
-		}
-		else {
-			Sexo=sex;
-		}
-	}
 	
 	
 	
@@ -118,15 +104,28 @@ public class Usuario {
                 ", nombre='" + nombre + '\'' +
                 ", Sexo=" + Sexo +
                 ", contrasenia='" + contrasenia + '\'' +
-                ", reserva='" + reserva + '\'' +
+                 '\'' +
                 ", rol='" + rol + '\'' +
                 '}';
     }
-
-
-
 	
-	
+	public void insertarUsuario() {
+        try (Connection con = DBConnection.getConexion()) {
+            if (con != null) {
+                String query = "INSERT INTO usuario (Dni_usuario, nom_usuario, contrasena, sexo) VALUES (?, ?, ?, ?)";
+                try (PreparedStatement pst = con.prepareStatement(query)) {
+                    pst.setString(1, Usuario.Dni_usuario);
+                    pst.setString(2, Usuario.nombre);
+                    pst.setString(3, Usuario.contrasenia);
+                    pst.setString(4, String.valueOf(Usuario.Sexo));
+                    pst.executeUpdate();
+                    System.out.println("Usuario insertado correctamente.");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al insertar el usuario: " + e.getMessage());
+        }
+    }
 	
 	
 }

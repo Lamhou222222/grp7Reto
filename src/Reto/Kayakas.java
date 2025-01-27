@@ -17,7 +17,7 @@ public class Kayakas extends Articulo {
 		return "Kayakas [asientos=" + asientos + "]";
 	}
 
-	public Kayakas(String cod_art, String tipo, String nombre, int cantidad_disponible, int precio_dia, Tienda tienda,int asientoss) {
+	public Kayakas(String cod_art, String tipo, String nombre, int cantidad_disponible, int precio_dia, String tienda,int asientoss) {
 		super(cod_art, tipo, nombre, cantidad_disponible, precio_dia, tienda);
 		asientos=asientoss;
 	}

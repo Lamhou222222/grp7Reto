@@ -17,12 +17,12 @@ public class Bicecleta extends Articulo {
 
 	private double velocidadMax;
 
-	public Bicecleta(String cod_art, String tipo, String nombre, int cantidad_disponible, int precio_dia,
-			Tienda tienda,double velo) {
+	public Bicecleta(String cod_art, String tipo, String nombre, int cantidad_disponible, int precio_dia,String tienda,double velo) {
 		super(cod_art, tipo, nombre, cantidad_disponible, precio_dia, tienda);
 		velocidadMax=velo;
 		// TODO Auto-generated constructor stub
 	}
+	
 	
 	
 }

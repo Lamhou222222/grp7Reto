@@ -1,5 +1,10 @@
 package Reto;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 public class Articulo {
 	
 	private static String cod_art;
@@ -7,10 +12,10 @@ public class Articulo {
 	private static String nombre;
 	private static int cantidad_disponible;
 	private static int precio_dia;
-	private static Tienda tienda;
+	private static  String tienda;
 	
 	
-	 public Articulo(String cod_art, String tipo, String nombre, int cantidad_disponible, int precio_dia, Tienda tienda) {
+	 public Articulo(String cod_art, String tipo, String nombre, int cantidad_disponible, int precio_dia, String tienda) {
 	        Articulo.cod_art = cod_art;
 	        Articulo.tipo = tipo;
 	        Articulo.nombre = nombre;
@@ -49,10 +54,10 @@ public class Articulo {
 	public static void setPrecio_dia(int precio_dia) {
 		Articulo.precio_dia = precio_dia;
 	}
-	public static Tienda getTienda() {
+	public static String getTienda() {
 		return tienda;
 	}
-	public static void setTienda(Tienda tienda) {
+	public static void setTienda(String tienda) {
 		Articulo.tienda = tienda;
 	}
 	
@@ -68,6 +73,25 @@ public class Articulo {
 	                ", tienda='" + tienda + '\'' +
 	                '}';
 	    }
-
-	
+	 
+	    public static void listarArticulos() {
+	        try (Connection con = DBConnection.getConexion()) {
+	            if (con != null) {
+	                String query = "SELECT * FROM articulo";
+	                try (Statement stmt = con.createStatement()) {
+	                    ResultSet rs = stmt.executeQuery(query);
+	                    while (rs.next()) {
+	                        System.out.println("Código: " + rs.getString("cod_art"));
+	                        System.out.println("Nombre: " + rs.getString("nombre"));
+	                        System.out.println("Cantidad disponible: " + rs.getInt("cantidad_disponible"));
+	                        System.out.println("Precio por día: " + rs.getInt("precio_dia"));
+	                        System.out.println("Tipo: " + rs.getString("tipo"));
+	                        System.out.println("----");
+	                    }
+	                }
+	            }
+	        } catch (SQLException e) {
+	            System.err.println("Error al listar los artículos: " + e.getMessage());
+	        }
+	    }
 }

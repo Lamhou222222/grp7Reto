@@ -1,21 +1,25 @@
 package Reto;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 public class Reserva {
 	
 	private static String id;
 	private static String fecha_inicio;
 	private static int prcio;
 	private static int dias;
-	private static Usuario user;
+	private static String  dni_user;
 	private static String  fecha_reservacion;
 	
 	
-	public Reserva(String id, String fecha_inicio, int prcio, int dias, Usuario user, String fecha_reservacion) {
+	public Reserva(String id, String fecha_inicio, int prcio, int dias, String user, String fecha_reservacion) {
         Reserva.id = id;
         Reserva.fecha_inicio = fecha_inicio;
         Reserva.prcio = prcio;
         Reserva.dias = dias;
-        Reserva.user = user;
+        Reserva.dni_user = user;
         Reserva.fecha_reservacion = fecha_reservacion;
     }
 	
@@ -44,11 +48,11 @@ public class Reserva {
 	public static void setDias(int dias) {
 		Reserva.dias = dias;
 	}
-	public static Usuario getUser() {
-		return user;
+	public static String getUser() {
+		return dni_user;
 	}
-	public static void setUser(Usuario user) {
-		Reserva.user = user;
+	public static void setUser(String user) {
+		Reserva.dni_user = user;
 	}
 	public static String getFecha_reservacion() {
 		return fecha_reservacion;
@@ -65,9 +69,28 @@ public class Reserva {
 	                ", fecha_inicio='" + fecha_inicio + '\'' +
 	                ", precio=" + prcio +
 	                ", dias=" + dias +
-	                ", user=" + (user != null ? user.toString() : "null") +
+	                ", user=" + dni_user +
 	                ", fecha_reservacion='" + fecha_reservacion + '\'' +
 	                '}';
+	    }
+	 public void insertarReserva() {
+	        try (Connection con = DBConnection.getConexion()) {
+	            if (con != null) {
+	                String query = "INSERT INTO reserva (id_reserva, fecha_inicio, dias, precio_total, fecha_reservacion, Dni_usuario) VALUES (?, ?, ?, ?, ?, ?)";
+	                try (PreparedStatement pst = con.prepareStatement(query)) {
+	                    pst.setString(1, Reserva.id);
+	                    pst.setString(2, Reserva.fecha_inicio);
+	                    pst.setInt(3, Reserva.dias);
+	                    pst.setInt(4, Reserva.prcio);
+	                    pst.setString(5, Reserva.fecha_reservacion);
+	                    pst.setString(6, Reserva.dni_user);
+	                    pst.executeUpdate();
+	                    System.out.println("Reserva insertada correctamente.");
+	                }
+	            }
+	        } catch (SQLException e) {
+	            System.err.println("Error al insertar la reserva: " + e.getMessage());
+	        }
 	    }
 	
 }
