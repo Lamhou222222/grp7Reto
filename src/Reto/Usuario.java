@@ -10,16 +10,15 @@ public class Usuario {
 	
 	private static String Dni_usuario;
 	private static String nombre ;
-	private static char Sexo;
+	private static String Sexo;
 	private static String contrasenia;
-	private static String rol;
 	
-	public Usuario( String Dni ,String nom,char s,String con,String r) {
+	public Usuario( String Dni ,String nom,String s,String con) {
 		Usuario.Dni_usuario=Dni;
 		Usuario.nombre=nom;
 		Usuario.Sexo=s;
 		Usuario.contrasenia=con;
-		Usuario.rol=r;
+
 	}
 
 
@@ -46,14 +45,14 @@ public class Usuario {
 	}
 
 
-	public static char getSexo() {
+	public static String getSexo() {
 		return Sexo;
 	}
 
 
-	public static void setSexo(char sex) {
-		if(sex!='M' && sex!='m') {
-			Sexo='H';
+	public static void setSexo(String sex) {
+		if(sex!="M" && sex!="m") {
+			Sexo="H";
 		}
 		else {
 			Sexo=sex;
@@ -70,16 +69,7 @@ public class Usuario {
 		Usuario.contrasenia = contrasenia;
 	}
 
-	public static String getRol() {
-		return rol;
-	}
 
-
-	public static void setRol(String rol) {
-		Usuario.rol = rol;
-	}
-	
-	
 	
 	
 	
@@ -105,8 +95,7 @@ public class Usuario {
                 ", Sexo=" + Sexo +
                 ", contrasenia='" + contrasenia + '\'' +
                  '\'' +
-                ", rol='" + rol + '\'' +
-                '}';
+                 '}';
     }
 	
 	public void insertarUsuario() {

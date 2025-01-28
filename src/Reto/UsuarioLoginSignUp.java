@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UsuarioLoginSignUp {
-	 public boolean login(String dni, String contrasena) {
+	 public static boolean login(String dni, String contrasena) {
 	        String sql = "SELECT contrasena FROM usuario WHERE Dni_usuario = ?";
 	        try (Connection conn = DBConnection.getConexion();
 	             PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -24,8 +24,9 @@ public class UsuarioLoginSignUp {
 	        return false;
 	    }
 
-	    public boolean register(String dni, String nombre, String apellidos, String sexo, String contrasena) {
-	        String sql = "INSERT INTO usuarios (Dni_usuario, nom_usuario,contrasena,sexo) VALUES (?, ?, ?, ?, ?)";
+	    public static void register(String dni, String nombre, String sexo, String contrasena) {
+	        String sql = "INSERT INTO usuario (Dni_usuario, nom_usuario,contrasena,sexo) VALUES (?, ?, ?, ?, ?)";
+	        
 	        try (Connection conn = DBConnection.getConexion();
 	             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -34,11 +35,9 @@ public class UsuarioLoginSignUp {
 	            stmt.setString(3, contrasena); 
 	            stmt.setString(4, sexo);
 	            stmt.executeUpdate();
-	            return true;
 
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        }
-	        return false;
 	    }
 }

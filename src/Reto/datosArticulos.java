@@ -13,6 +13,7 @@ public class datosArticulos {
 	             ResultSet rs = stmt.executeQuery()) {
 
 	            while (rs.next()) {
+	            	System.out.println("Articulos en irun");
 	                System.out.println("nombre " + rs.getString("nombre"));
 	                System.out.println("Precio: " + rs.getInt("precio_dia"));
 	                System.out.println("Cantidad Disponible: " + rs.getInt("fcantidad_disponible"));
@@ -31,6 +32,7 @@ public class datosArticulos {
 	             ResultSet rs = stmt.executeQuery()) {
 
 	            while (rs.next()) {
+	            	System.out.println("Articulos en donostia");
 	                System.out.println("nombre " + rs.getString("nombre"));
 	                System.out.println("Precio: " + rs.getInt("precio_dia"));
 	                System.out.println("Cantidad Disponible: " + rs.getInt("fcantidad_disponible"));
