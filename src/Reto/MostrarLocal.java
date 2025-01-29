@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class MostrarLocal {
-	 public void mostrarLasTiendas() {
+	 public static void mostrarLasTiendas() {
 	        String sql = "SELECT * FROM tienda";
 	        try (Connection conn = DBConnection.getConexion();
 	             PreparedStatement stmt = conn.prepareStatement(sql);
