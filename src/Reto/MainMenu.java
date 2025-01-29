@@ -94,7 +94,7 @@ public class MainMenu {
         System.out.println("\nArtículos disponibles:");
 
         try {
-            String sql = "SELECT cod_art, nombre, cantidad_disponible, precio FROM articulo";
+            String sql = "SELECT cod_art, nombre, cantidad_disponible, precio_dia FROM articulo";
             PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
 
@@ -103,7 +103,7 @@ public class MainMenu {
                 String cod_art = rs.getString("cod_art");
                 String nombre = rs.getString("nombre");
                 int cantidad = rs.getInt("cantidad_disponible");
-                int precio = rs.getInt("precio");
+                int precio = rs.getInt("precio_dia");
 
                 System.out.println(index + ". " + nombre + " (" + cantidad + " disponibles, " + precio + "€/día)");
                 index++;
@@ -117,7 +117,7 @@ public class MainMenu {
                 rs.absolute(opcion);
                 String cod_art = rs.getString("cod_art");
                 String nombre = rs.getString("nombre");
-                int precio = rs.getInt("precio");
+                int precio = rs.getInt("precio_dia");
                 int cantidad = rs.getInt("cantidad_disponible");
 
                 if (cantidad > 0) {
