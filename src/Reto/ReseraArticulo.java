@@ -1,6 +1,7 @@
 package Reto;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -56,4 +57,18 @@ public class ReseraArticulo {
 	            System.err.println("Error  " + e.getMessage());
 	        }
 	    }
+	 public static void addResArticulo(String idReserva,String cod_art) {
+		 try (Connection con = DBConnection.getConexion()) {
+	            if (con != null) {
+	            	String sqlReservaArticulo = "INSERT INTO ReservaArticulo (id_reserva, cod_art) VALUES (?, ?)";
+	                PreparedStatement stmtReservaArticulo = con.prepareStatement(sqlReservaArticulo);
+
+	            	 stmtReservaArticulo.setString(1,idReserva );
+	                 stmtReservaArticulo.setString(2,cod_art);
+	                 stmtReservaArticulo.executeUpdate();
+	            }
+	        } catch (SQLException e) {
+	            System.err.println("Error  " + e.getMessage());
+	        }
+	 }
 }

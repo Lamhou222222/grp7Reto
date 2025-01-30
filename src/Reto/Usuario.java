@@ -117,7 +117,7 @@ public class Usuario {
 	    }
 
 	    public static void register(String dni, String nombre, String sexo, String contrasena) {
-	        String sql = "INSERT INTO usuario (Dni_usuario, nom_usuario,contrasena,sexo) VALUES (?, ?, ?, ?, ?)";
+	        String sql = "INSERT INTO usuario (Dni_usuario, nom_usuario,contrasena,sexo) VALUES (?, ?, ?, ?)";
 	        
 	        try (Connection conn = DBConnection.getConexion();
 	             PreparedStatement stmt = conn.prepareStatement(sql)) {

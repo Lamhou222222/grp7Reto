@@ -8,6 +8,8 @@ import java.util.Date;
 
 public class Reserva {
 	
+	
+	//los atributos dela reserva 
 	private static String id;
 	private static String fecha_inicio;
 	private static int prcio;
@@ -15,7 +17,7 @@ public class Reserva {
 	private static String  dni_user;
 	private static String  fecha_reservacion;
 	
-	
+	//constructor de la reserva 
 	public Reserva(String id, String fecha_inicio, int prcio, int dias, String user, String fecha_reservacion) {
         Reserva.id = id;
         Reserva.fecha_inicio = fecha_inicio;
@@ -25,7 +27,7 @@ public class Reserva {
         Reserva.fecha_reservacion = fecha_reservacion;
     }
 	
-	
+	//getters y setters 
 	public static String getId() {
 		return id;
 	}
@@ -63,7 +65,7 @@ public class Reserva {
 		Reserva.fecha_reservacion = fecha_reservacion;
 	}
 	
-	
+	//metodo sobreescribir
 	 @Override
 	    public String toString() {
 	        return "Reserva{" +
@@ -102,18 +104,9 @@ public class Reserva {
 	            stmtReserva.executeUpdate();
 
 	            // Insertar en la tabla reservaarticulo
-	            String sqlReservaArticulo = "INSERT INTO ReservaArticulo (id_reserva, cod_art) VALUES (?, ?)";
-	            PreparedStatement stmtReservaArticulo = conn.prepareStatement(sqlReservaArticulo);
-	            stmtReservaArticulo.setString(1, idReserva);
-	            stmtReservaArticulo.setString(2, cod_art);
-	            stmtReservaArticulo.executeUpdate();
-
+	            ReseraArticulo.addResArticulo(idReserva, cod_art);
 	            // Restar 1 a la cantidad disponible en la tabla articulo
-	            String sqlUpdate = "UPDATE articulo SET cantidad_disponible = cantidad_disponible - 1 WHERE cod_art = ?";
-	            PreparedStatement stmtUpdate = conn.prepareStatement(sqlUpdate);
-	            stmtUpdate.setString(1, cod_art);
-	            stmtUpdate.executeUpdate();
-
+	            Articulo.resArticulo(cod_art );
 	            System.out.println("✅ Reserva guardada y stock actualizado.");
 
 	        } catch (SQLException e) {

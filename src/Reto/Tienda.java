@@ -4,12 +4,16 @@ import java.util.Scanner;
 
 public class Tienda {
 	
+	
+	//los atributos del clase Tienda 
 	private static String id_tienda;
 	private static String nombre;
 	private static String dirrecion;
 	private static Articulo articulo;
 	
 	
+	
+	//constructor del clase tienda 
 	public Tienda(String id_tienda, String nombre, String dirrecion, Articulo articulo) {
         Tienda.id_tienda = id_tienda;
         Tienda.nombre = nombre;
@@ -17,7 +21,7 @@ public class Tienda {
         Tienda.articulo = articulo;
     }
 	
-	
+	//getters y setters
 	public static String getId_tienda() {
 		return id_tienda;
 	}
@@ -43,7 +47,7 @@ public class Tienda {
 		Tienda.articulo = articulo;
 	}
 	
-	
+	// metodo toString o sobrescribir  para mostrar los atributos del clase Tienda 
 	 @Override
 	    public String toString() {
 	        return "Tienda{" +
@@ -55,16 +59,24 @@ public class Tienda {
 	    }
 	 
 	 
+	 
+	 // metodo del clase tienda para mostrar las oficinas que son disponible 
 	 public static void mostrarOficinas(String dni) {
+		 
+		 //menu para mostrar el local de cada tienda
 	        System.out.println("\nSeleccione una oficina:");
 	        System.out.println("1. Oficina Donostia");
 	        System.out.println("2. Oficina Irún");
 	        System.out.println("3. Salir");
-
+	        
+	        
+	        //hay que eligir alguna opcion 
 	        Scanner scanner = new Scanner(System.in);
 	        int opcion = scanner.nextInt();
 	        scanner.nextLine();
-
+	        
+	        
+	        //utlizar switch para elegir que opcion
 	        switch (opcion) {
 	            case 1:
 	                System.out.println("Has seleccionado la Oficina Donostia");
