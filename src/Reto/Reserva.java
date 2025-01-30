@@ -3,6 +3,8 @@ package Reto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Reserva {
 	
@@ -73,23 +75,49 @@ public class Reserva {
 	                ", fecha_reservacion='" + fecha_reservacion + '\'' +
 	                '}';
 	    }
-	 public void insertarReserva() {
-	        try (Connection con = DBConnection.getConexion()) {
-	            if (con != null) {
-	                String query = "INSERT INTO reserva (id_reserva, fecha_inicio, dias, precio_total, fecha_reservacion, Dni_usuario) VALUES (?, ?, ?, ?, ?, ?)";
-	                try (PreparedStatement pst = con.prepareStatement(query)) {
-	                    pst.setString(1, Reserva.id);
-	                    pst.setString(2, Reserva.fecha_inicio);
-	                    pst.setInt(3, Reserva.dias);
-	                    pst.setInt(4, Reserva.prcio);
-	                    pst.setString(5, Reserva.fecha_reservacion);
-	                    pst.setString(6, Reserva.dni_user);
-	                    pst.executeUpdate();
-	                    System.out.println("Reserva insertada correctamente.");
-	                }
-	            }
+	 public static void guardarReserva(String dni, String fecha, int dias, String cod_art, int totalPrecio) {
+	        Connection conn = DBConnection.getConexion();
+	        if (conn == null) {
+	            System.out.println("Error al conectar a la base de datos.");
+	            return;
+	        }
+
+	        try {
+	            // Generar ID de reserva único basado en el tiempo
+	            String idReserva = "R" + System.currentTimeMillis();
+
+	            // Obtener la fecha actual como fecha de reservación
+	            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	            String fechaReservacion = sdf.format(new Date());
+
+	            // Insertar en la tabla reserva
+	            String sqlReserva = "INSERT INTO reserva (id_reserva, fecha_inicio, dias, precio_total, fecha_reservacion, Dni_usuario) VALUES (?, ?, ?, ?, ?, ?)";
+	            PreparedStatement stmtReserva = conn.prepareStatement(sqlReserva);
+	            stmtReserva.setString(1, idReserva);
+	            stmtReserva.setString(2, fecha);
+	            stmtReserva.setInt(3, dias);
+	            stmtReserva.setInt(4, totalPrecio);
+	            stmtReserva.setString(5, fechaReservacion);
+	            stmtReserva.setString(6, dni);
+	            stmtReserva.executeUpdate();
+
+	            // Insertar en la tabla reservaarticulo
+	            String sqlReservaArticulo = "INSERT INTO ReservaArticulo (id_reserva, cod_art) VALUES (?, ?)";
+	            PreparedStatement stmtReservaArticulo = conn.prepareStatement(sqlReservaArticulo);
+	            stmtReservaArticulo.setString(1, idReserva);
+	            stmtReservaArticulo.setString(2, cod_art);
+	            stmtReservaArticulo.executeUpdate();
+
+	            // Restar 1 a la cantidad disponible en la tabla articulo
+	            String sqlUpdate = "UPDATE articulo SET cantidad_disponible = cantidad_disponible - 1 WHERE cod_art = ?";
+	            PreparedStatement stmtUpdate = conn.prepareStatement(sqlUpdate);
+	            stmtUpdate.setString(1, cod_art);
+	            stmtUpdate.executeUpdate();
+
+	            System.out.println("✅ Reserva guardada y stock actualizado.");
+
 	        } catch (SQLException e) {
-	            System.err.println("Error al insertar la reserva: " + e.getMessage());
+	            e.printStackTrace();
 	        }
 	    }
 	

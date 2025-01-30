@@ -1,9 +1,11 @@
 package Reto;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Scanner;
 
 public class Articulo {
 	
@@ -74,24 +76,82 @@ public class Articulo {
 	                '}';
 	    }
 	 
-	    public static void listarArticulos() {
-	        try (Connection con = DBConnection.getConexion()) {
-	            if (con != null) {
-	                String query = "SELECT * FROM articulo";
-	                try (Statement stmt = con.createStatement()) {
-	                    ResultSet rs = stmt.executeQuery(query);
-	                    while (rs.next()) {
-	                        System.out.println("Código: " + rs.getString("cod_art"));
-	                        System.out.println("Nombre: " + rs.getString("nombre"));
-	                        System.out.println("Cantidad disponible: " + rs.getInt("cantidad_disponible"));
-	                        System.out.println("Precio por día: " + rs.getInt("precio_dia"));
-	                        System.out.println("Tipo: " + rs.getString("tipo"));
-	                        System.out.println("----");
-	                    }
-	                }
+	 public static void seleccionarFechas(String dni, String cod_art, String articulo, int precioPorDia) {
+	        System.out.print("\nSeleccione la fecha de inicio del alquiler (yyyy-mm-dd): ");
+
+	        Scanner scanner = new Scanner(System.in);
+	        String fecha = scanner.nextLine();
+
+	        System.out.println("Días a alquilar:");
+	        System.out.println("1 día: " + precioPorDia + "€");
+	        System.out.println("2 días: " + (2 * precioPorDia) + "€");
+	        System.out.println("3 días: " + (3 * precioPorDia) + "€");
+	        System.out.println("4 días: " + (4 * precioPorDia) + "€");
+	        System.out.print("Selecciona la cantidad de días: ");
+
+	        int dias = scanner.nextInt();
+	        int totalPrecio = dias * precioPorDia;
+
+	        System.out.println("Has seleccionado " + dias + " días.");
+	        System.out.println("El precio total es: " + totalPrecio + "€");
+	        System.out.println("La fecha de inicio del alquiler es: " + fecha);
+	        System.out.println("¡Reserva realizada con éxito!");
+
+	        Reserva.guardarReserva(dni, fecha, dias, cod_art, totalPrecio);
+	    }
+	 public static void mostrarArticulos(String dni) {
+	        Connection conn = DBConnection.getConexion();
+	        if (conn == null) {
+	            System.out.println("Error al conectar a la base de datos.");
+	            return;
+	        }
+
+	        System.out.println("\nArtículos disponibles:");
+
+	        try {
+	            String sql = "SELECT cod_art, nombre, cantidad_disponible, precio_dia FROM articulo";
+	            PreparedStatement stmt = conn.prepareStatement(sql);
+	            ResultSet rs = stmt.executeQuery();
+
+	            int index = 1;
+	            while (rs.next()) {
+	                String cod_art = rs.getString("cod_art");
+	                String nombre = rs.getString("nombre");
+	                int cantidad = rs.getInt("cantidad_disponible");
+	                int precio = rs.getInt("precio_dia");
+
+	                System.out.println(index + ". " + nombre + " (" + cantidad + " disponibles, " + precio + "€/día)");
+	                index++;
 	            }
+	            System.out.println(index + ". Volver atrás");
+
+	            Scanner scanner = new Scanner(System.in);
+	            int opcion = scanner.nextInt();
+
+	            if (opcion >= 1 && opcion < index) {
+	                rs.absolute(opcion);
+	                String cod_art = rs.getString("cod_art");
+	                String nombre = rs.getString("nombre");
+	                int precio = rs.getInt("precio_dia");
+	                int cantidad = rs.getInt("cantidad_disponible");
+
+	                if (cantidad > 0) {
+	                    Articulo.seleccionarFechas(dni, cod_art, nombre, precio);
+	                } else {
+	                    System.out.println("❌ No hay stock disponible para " + nombre);
+	                }
+	            } else if (opcion == index) {
+	                System.out.println("Volver atrás.");
+	                Tienda.mostrarOficinas(dni);
+	            } else {
+	                System.out.println("Opción no válida.");
+	            }
+
 	        } catch (SQLException e) {
-	            System.err.println("Error al listar los artículos: " + e.getMessage());
+	            e.printStackTrace();
 	        }
 	    }
+
+
+	   
 }
