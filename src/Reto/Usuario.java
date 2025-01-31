@@ -23,7 +23,6 @@ public class Usuario {
 	}
 
 
-	private static final String  ROL[]= {"Cliente","empleado"};
 	
 	
 	public static String getDni_usuario() {
@@ -72,18 +71,7 @@ public class Usuario {
 
 
 	
-	
-	
-	
-	public static boolean rolUsuario(String rol) {
-		for(int k=0;k<2;k++) {
-			if(ROL[k].equalsIgnoreCase(rol)) {
-				return true;
-			}
-		}
-		return false;
-		
-	}
+
 
 
 

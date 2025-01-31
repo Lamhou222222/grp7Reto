@@ -46,7 +46,7 @@ public class MainMenu {
                 String dni = sc.nextLine();
                 System.out.print("Introduce tu nombre: ");
                 String nombre = sc.nextLine();
-                System.out.print("Introduce tu sexo (M/F): ");
+                System.out.print("Introduce tu sexo (H/M): ");
                 String sexo = sc.nextLine();
                 System.out.print("Introduce tu contraseña: ");
                 String contrasena = sc.nextLine();
