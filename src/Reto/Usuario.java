@@ -115,7 +115,6 @@ public class Usuario {
 	            stmt.setString(3, contrasena); 
 	            stmt.setString(4, sexo);
 	            stmt.executeUpdate();
-
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        }
