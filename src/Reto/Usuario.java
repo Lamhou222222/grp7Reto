@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class Usuario {
 	
-	
+	// ATRIBUTOS
 	
 	private static String Dni_usuario;
 	private static String nombre ;
