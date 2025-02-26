@@ -5,6 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
+
+// ahora tenemos proyectos
+
 abstract class Articulo {
     // Atributos
     private String cod_art;
