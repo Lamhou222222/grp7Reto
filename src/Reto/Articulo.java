@@ -5,8 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-abstract class Articulo {
-    // Atributos
+abstract class Articulo implements ArticuloInterface {
     private String cod_art;
     private String tipo;
     private String nombre;
@@ -14,7 +13,6 @@ abstract class Articulo {
     private int precio_dia;
     private String tienda;
 
-    // Constructor
     public Articulo(String cod_art, String tipo, String nombre, int cantidad_disponible, int precio_dia, String tienda) {
         this.cod_art = cod_art;
         this.tipo = tipo;
@@ -24,10 +22,6 @@ abstract class Articulo {
         this.tienda = tienda;
     }
 
-    // Método abstracto que las subclases deben implementar
-    public abstract void mostrarDetalles();
-
-    // Getters y Setters
     public String getCod_art() { return cod_art; }
     public String getTipo() { return tipo; }
     public String getNombre() { return nombre; }
@@ -39,15 +33,12 @@ abstract class Articulo {
         this.cantidad_disponible = cantidad_disponible;
     }
 
-    // Método para mostrar datos del artículo
     @Override
     public String toString() {
         return "Artículo: " + nombre + " (" + tipo + ") - Precio/día: " + precio_dia + "€ - Stock: " + cantidad_disponible;
     }
 
-    // ====================== MÉTODOS JDBC ======================
-
-    // 🔹 Método para agregar un artículo a la BD
+    @Override
     public void guardarEnBD() {
         Connection conn = DBConnection.getConexion();
         if (conn == null) {
@@ -74,7 +65,7 @@ abstract class Articulo {
         }
     }
 
-    // 🔹 Método para eliminar un artículo de la BD
+    @Override
     public void eliminarDeBD() {
         Connection conn = DBConnection.getConexion();
         if (conn == null) {
@@ -98,7 +89,7 @@ abstract class Articulo {
         }
     }
 
-    // 🔹 Método para actualizar la cantidad de artículos
+    @Override
     public void actualizarStock(int nuevaCantidad) {
         Connection conn = DBConnection.getConexion();
         if (conn == null) {
@@ -121,52 +112,27 @@ abstract class Articulo {
             e.printStackTrace();
         }
     }
-
-    // 🔹 Método estático para mostrar todos los artículos de la BD
-    public static void mostrarArticulos(String dni) {
+    
+    public static void resArticulo(String cod_art) {
         Connection conn = DBConnection.getConexion();
         if (conn == null) {
-            System.out.println("Error al conectar con la base de datos.");
+            System.out.println("❌ Error al conectar a la base de datos.");
             return;
         }
 
-        try {
-            String sql = "SELECT * FROM articulo";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
+        String sql = "UPDATE articulo SET cantidad_disponible = cantidad_disponible - 1 WHERE cod_art = ? AND cantidad_disponible > 0";
 
-            System.out.println("📜 Lista de Artículos:");
-            while (rs.next()) {
-                System.out.println("Código: " + rs.getString("cod_art") +
-                        " | Nombre: " + rs.getString("nombre") +
-                        " | Precio: " + rs.getInt("precio_dia") +
-                        " | Stock: " + rs.getInt("cantidad_disponible"));
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, cod_art);
+
+            int filasActualizadas = stmt.executeUpdate();
+            if (filasActualizadas > 0) {
+                System.out.println("✅ Stock actualizado correctamente para el artículo: " + cod_art);
+            } else {
+                System.out.println("⚠️ No se pudo actualizar el stock. Puede que no haya suficiente cantidad disponible.");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("⚠️ Error al actualizar el stock del artículo: " + e.getMessage());
         }
     }
-
-
-	public static void resArticulo(String cod_art) {
-	    Connection conn = DBConnection.getConexion();
-	    if (conn == null) {
-	        System.out.println("❌ Error al conectar a la base de datos.");
-	        return;
-	    }
-	    try {
-	        String sql = "UPDATE articulo SET cantidad_disponible = cantidad_disponible - 1 WHERE cod_art = ?";
-	        PreparedStatement stmt = conn.prepareStatement(sql);
-	        stmt.setString(1, cod_art);
-	        int rowsUpdated = stmt.executeUpdate();
-	        if (rowsUpdated > 0) {
-	            System.out.println("✅ Stock actualizado para el artículo: " + cod_art);
-	        } else {
-	            System.out.println("⚠️ No se encontró el artículo con código: " + cod_art);
-	        }
-	    } catch (SQLException e) {
-	        System.err.println("Error al actualizar el stock: " + e.getMessage());
-	    }
-	}
-
 }
