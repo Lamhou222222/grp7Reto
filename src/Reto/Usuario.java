@@ -8,17 +8,17 @@ import java.sql.SQLException;
 public class Usuario {
 
     // ATRIBUTOS
-    private static String Dni_usuario;
-    private static String nombre;
-    private static String Sexo;
-    private static String contrasenia;
+	private String dni_usuario;
+    private String nombre;
+    private String sexo;
+    private String contrasenia;
 
     // Constructor
-    public Usuario(String Dni, String nom, String s, String con) {
-        Usuario.Dni_usuario = Dni;
-        Usuario.nombre = nom;
-        Usuario.Sexo = s;
-        Usuario.contrasenia = con;
+    public Usuario(String dni, String nom, String s, String con) {
+        this.dni_usuario = dni;
+        this.nombre = nom;
+        this.sexo = s;
+        this.contrasenia = con;
     }
 
     // Getters y Setters
