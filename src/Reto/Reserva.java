@@ -92,7 +92,9 @@ public class Reserva {
 
             System.out.println("✅ Reserva guardada con éxito. Stock actualizado.");
         } catch (SQLException e) {
-            System.err.println("⚠️ Error al guardar la reserva: " + e.getMessage());
+            // Lanzamos una DatabaseException personalizada para errores relacionados con la base de datos
+            throw new DatabaseException("Error al guardar la reserva en la base de datos.", e);
         }
     }
 }
+

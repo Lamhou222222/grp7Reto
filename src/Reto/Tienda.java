@@ -59,8 +59,8 @@ public class Tienda {
                         ", Stock: " + rs.getInt("cantidad_disponible"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Error al obtener los artículos de la base de datos.");
+            // Lanzamos una excepción personalizada si ocurre un error con la base de datos
+            throw new DatabaseException("Error al obtener los artículos de la base de datos.", e);
         }
     }
 
