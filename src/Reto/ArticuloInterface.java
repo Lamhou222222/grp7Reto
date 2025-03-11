@@ -8,4 +8,4 @@ public interface ArticuloInterface {
 	    void actualizarStock(int nuevaCantidad);
 	    static void mostrarArticulos(String dni) {}
 	    static void resArticulo(String cod_art) {}
-}
+}//MHM
