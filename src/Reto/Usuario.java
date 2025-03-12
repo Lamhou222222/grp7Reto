@@ -82,7 +82,7 @@ public class Usuario {
         return false;
     }
 
-    public static void register(String dni, String nombre, String sexo, String contrasena) throws SQLException {
+    public static void register(String dni, String nombre, String sexo, String contrasena) {
         String sql = "INSERT INTO usuario (Dni_usuario, nom_usuario, contrasena, sexo) VALUES (?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConexion();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -92,7 +92,7 @@ public class Usuario {
             stmt.setString(4, sexo);
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new SQLException("Error al registrar usuario", e);
+            System.out.println("Error al registrar usuario"+ e.getMessage());
         }
     }
 }

@@ -62,7 +62,7 @@ public class Tienda {
     }
 
     // Método para mostrar las oficinas disponibles
-    public static void mostrarOficinas(String dni) throws Exception {
+    public static void mostrarOficinas(String dni)  {
         Scanner scanner = null;
         try {
             System.out.println("\nSeleccione una oficina:");
@@ -90,7 +90,7 @@ public class Tienda {
                     System.out.println("Opción no válida. Volviendo al menú principal.");
             }
         } catch (Exception e) {
-            throw new Exception("Error al seleccionar una oficina: " + e.getMessage());
+           System.out.println("Error al seleccionar una oficina: " + e.getMessage());
         } finally {
             if (scanner != null) {
                 scanner.close();
