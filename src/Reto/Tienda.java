@@ -59,8 +59,7 @@ public class Tienda {
                         ", Stock: " + rs.getInt("cantidad_disponible"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Error al obtener los artículos de la base de datos.");
+            System.err.println("⚠️ Error al obtener los artículos de la base de datos: " + e.getMessage());
         }
     }
 
@@ -69,33 +68,38 @@ public class Tienda {
         Scanner scanner = new Scanner(System.in);
         int opcion;
         
-        do {
-            System.out.println("\nSeleccione una oficina:");
-            System.out.println("1. Oficina Donostia");
-            System.out.println("2. Oficina Irún");
-            System.out.println("3. Salir");
-            System.out.print("Opción: ");
-            
-            opcion = scanner.nextInt();
-            scanner.nextLine();
+        try {
+            do {
+                System.out.println("\nSeleccione una oficina:");
+                System.out.println("1. Oficina Donostia");
+                System.out.println("2. Oficina Irún");
+                System.out.println("3. Salir");
+                System.out.print("Opción: ");
+                
+                opcion = scanner.nextInt();
+                scanner.nextLine();
 
-            switch (opcion) {
-                case 1:
-                    System.out.println("Has seleccionado la Oficina Donostia");
-                    mostrarArticulos();
-                    break;
-                case 2:
-                    System.out.println("Has seleccionado la Oficina Irún");
-                    mostrarArticulos();
-                    break;
-                case 3:
-                    System.out.println("Volviendo al menú principal.");
-                    break;
-                default:
-                    System.out.println("Opción no válida. Inténtalo de nuevo.");
-            }
-        } while (opcion != 3);
-
-        scanner.close();
+                switch (opcion) {
+                    case 1:
+                        System.out.println("Has seleccionado la Oficina Donostia");
+                        mostrarArticulos();
+                        break;
+                    case 2:
+                        System.out.println("Has seleccionado la Oficina Irún");
+                        mostrarArticulos();
+                        break;
+                    case 3:
+                        System.out.println("Volviendo al menú principal.");
+                        break;
+                    default:
+                        System.out.println("Opción no válida. Inténtalo de nuevo.");
+                }
+            } while (opcion != 3);
+        } catch (Exception e) {
+            System.err.println("⚠️ Error en la selección de oficina: " + e.getMessage());
+            scanner.nextLine(); // Limpiar buffer
+        } finally {
+            scanner.close();
+        }
     }
 }
