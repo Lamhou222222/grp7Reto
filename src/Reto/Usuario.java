@@ -20,7 +20,7 @@ public class Usuario {
 		Usuario.Sexo=s;
 		Usuario.contrasenia=con;
 
-	}
+	}//
 
 
 	
