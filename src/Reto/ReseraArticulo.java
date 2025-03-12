@@ -1,7 +1,6 @@
 package Reto;
 
 import java.sql.Connection;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +10,6 @@ public class ReseraArticulo {
 	
 	private static String id_reserva;
 	private static String cod_art;
-
 	
 	
 	public ReseraArticulo(String reserva, String articulo) {

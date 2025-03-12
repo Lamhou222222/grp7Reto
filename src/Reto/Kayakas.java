@@ -1,22 +1,25 @@
 package Reto;
 
-
 public class Kayakas extends Articulo {
-    private int asientos;
+	
+	public int getAsientos() {
+		return asientos;
+	}
 
-    // Constructor
-    public Kayakas(String cod_art, String tipo, String nombre, int cantidad_disponible, int precio_dia, String tienda, int asientos) {
-        super(cod_art, tipo, nombre, cantidad_disponible, precio_dia, tienda);
-        this.asientos = asientos;
-    }
+	public void setAsientos(int asientos) {
+		this.asientos = asientos;
+	}
 
-    // Getter y Setter
-    public int getAsientos() { return asientos; }
-    public void setAsientos(int asientos) { this.asientos = asientos; }
+	private int asientos;
 
-    // Implementación del método abstracto
-    @Override
-    public void mostrarDetalles() {
-        System.out.println(super.toString() + " - Asientos: " + asientos);
-    }
+	@Override
+	public String toString() {
+		return "Kayakas [asientos=" + asientos + "]";
+	}
+
+	public Kayakas(String cod_art, String tipo, String nombre, int cantidad_disponible, int precio_dia, String tienda,int asientoss) {
+		super(cod_art, tipo, nombre, cantidad_disponible, precio_dia, tienda);
+		asientos=asientoss;
+	}
+
 }
