@@ -9,3 +9,4 @@ public interface ArticuloInterface {
 	    static void mostrarArticulos(String dni) {}
 	    static void resArticulo(String cod_art) {}
 }//MHM
+///////////ru9fjc93riok
