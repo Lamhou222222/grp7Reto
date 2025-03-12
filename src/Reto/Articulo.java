@@ -175,7 +175,12 @@ public class Articulo {
 	                //para volver y elegir la opcion otra vez
 	            } else if (opcion == index) {
 	                System.out.println("Volver atrás.");
-	                Tienda.mostrarOficinas(dni);
+	                try {
+						Tienda.mostrarOficinas(dni);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 	            } else {
 	                System.out.println("Opción no válida.");
 	            }
